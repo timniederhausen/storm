@@ -6,8 +6,8 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef STORM_SINKS_FILELOGSINK_HPP
-#define STORM_SINKS_FILELOGSINK_HPP
+#ifndef STORM_SINKS_BASICFILESINK_HPP
+#define STORM_SINKS_BASICFILESINK_HPP
 
 #include <storm/detail/config.hpp>
 
@@ -24,11 +24,11 @@
 
 STORM_NS_BEGIN
 
-class file_log_sink : public basic_log_sink
+class basic_file_sink : public basic_log_sink
 {
 public:
-  STORM_DECL file_log_sink();
-  STORM_DECL file_log_sink(const vstd::string_view& filename);
+  STORM_DECL basic_file_sink();
+  STORM_DECL basic_file_sink(const vstd::string_view& filename);
 
   STORM_DECL void open(const vstd::string_view& filename);
   STORM_DECL void close();
