@@ -7,6 +7,7 @@ source_set("storm") {
     "include/storm/impl/basic_logger.cpp",
     "include/storm/impl/basic_log_sink.cpp",
     "include/storm/sinks/impl/basic_file_sink.cpp",
+    "include/storm/sinks/impl/basic_stdout_sink.cpp",
   ]
 
   public_configs = [ ":storm_config" ]
