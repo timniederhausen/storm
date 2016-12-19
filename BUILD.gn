@@ -1,0 +1,30 @@
+config("storm_config") {
+  include_dirs = [ "include" ]
+}
+
+source_set("storm") {
+  sources = [
+    "include/storm/impl/basic_logger.cpp",
+    "include/storm/impl/basic_log_sink.cpp",
+    "include/storm/sinks/impl/file_log_sink.cpp",
+  ]
+
+  public_configs = [ ":storm_config" ]
+
+  public_deps = [
+    "$external/boost/libs/system",
+    "$external/boost/libs/filesystem",
+    "$external/asioext",
+    "$external/fmt",
+    "$external/vstl",
+  ]
+}
+
+source_set("check_handler_stderr_abort") {
+  sources = [
+    "src/check_handler_stderr_abort.cpp",
+  ]
+  deps = [
+    ":storm",
+  ]
+}
