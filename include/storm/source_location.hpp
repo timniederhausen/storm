@@ -37,8 +37,6 @@ public:
     // ctor
   }
 
-  constexpr bool is_empty() const { return line_ == 0; }
-
   constexpr uint32_t line() const { return line_; }
   constexpr const char* filename() const { return filename_; }
   constexpr const char* function_name() const { return function_name_; }
@@ -48,6 +46,11 @@ private:
   const char* filename_;
   const char* function_name_;
 };
+
+constexpr bool empty(const source_location& location)
+{
+  return location.line() == 0;
+}
 
 STORM_NS_END
 
