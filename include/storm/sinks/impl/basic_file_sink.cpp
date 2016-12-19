@@ -6,12 +6,11 @@
 // http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef STORM_SINKS_IMPL_BASICFILESINK_CPP
-#define STORM_SINKS_IMPL_BASICFILESINK_CPP
-
 #include <storm/sinks/basic_file_sink.hpp>
 
 #include <storm/detail/namespaces.hpp>
+
+#include <asioext/open_flags.hpp>
 
 #include <boost/asio/write.hpp>
 
@@ -59,5 +58,3 @@ void basic_file_sink::write_record(const vstd::string_view& record)
 }
 
 STORM_NS_END
-
-#endif
