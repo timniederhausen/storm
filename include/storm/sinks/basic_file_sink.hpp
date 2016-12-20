@@ -1,21 +1,18 @@
-//
-// Copyright (c) 2016 Tim Niederhausen (tim@rnc-ag.de)
-//
-// Distributed under the Boost Software License, Version 1.0.
-// (See accompanying file LICENSE_1_0.txt or copy at
-// http://www.boost.org/LICENSE_1_0.txt)
-//
+/// @copyright Copyright (c) 2016 Tim Niederhausen (tim@rnc-ag.de)
+/// Distributed under the Boost Software License, Version 1.0.
+/// (See accompanying file LICENSE_1_0.txt or copy at
+/// http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef STORM_SINKS_BASICFILESINK_HPP
 #define STORM_SINKS_BASICFILESINK_HPP
 
-#include <storm/detail/config.hpp>
+#include "storm/detail/config.hpp"
 
 #if VSTD_HAS_PRAGMA_ONCE
 #pragma once
 #endif
 
-#include <storm/basic_log_sink.hpp>
+#include "storm/basic_log_sink.hpp"
 
 #include <asioext/scoped_file_handle.hpp>
 
@@ -44,5 +41,9 @@ private:
 };
 
 STORM_NS_END
+
+#if defined(STORM_HEADER_ONLY)
+# include "storm/sinks/impl/basic_file_sink.cpp"
+#endif
 
 #endif

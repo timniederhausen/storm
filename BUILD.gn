@@ -1,11 +1,21 @@
+declare_args() {
+  # Storm can be built as a header only library or a separate compilation.
+  # Enabling this adds the STORM_SEPARATE_COMPILATION define.
+  storm_header_only = true
+}
+
 config("storm_config") {
   include_dirs = [ "include" ]
 }
 
-source_set("storm") {
+config("storm_lib_config") {
+  defines = [ "STORM_SEPARATE_COMPILATION" ]
+}
+
+source_set("storm_lib") {
   sources = [
-    "include/storm/impl/basic_logger.cpp",
     "include/storm/impl/basic_log_sink.cpp",
+    "include/storm/impl/basic_logger.cpp",
     "include/storm/sinks/impl/basic_file_sink.cpp",
     "include/storm/sinks/impl/basic_stdout_sink.cpp",
   ]
@@ -13,12 +23,22 @@ source_set("storm") {
   public_configs = [ ":storm_config" ]
 
   public_deps = [
-    "$external/boost/libs/system",
-    "$external/boost/libs/filesystem",
     "$external/asioext",
+    "$external/boost/libs/filesystem",
+    "$external/boost/libs/system",
     "$external/fmt",
     "$external/vstl",
   ]
+}
+
+group("storm") {
+  if (storm_header_only) {
+    public_configs = [ ":storm_config" ]
+  } else {
+    public_deps = [
+      ":storm_lib",
+    ]
+  }
 }
 
 source_set("check_handler_stderr_abort") {

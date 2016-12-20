@@ -1,15 +1,12 @@
-//
-// Copyright (c) 2016 Tim Niederhausen (tim@rnc-ag.de)
-//
-// Distributed under the Boost Software License, Version 1.0.
-// (See accompanying file LICENSE_1_0.txt or copy at
-// http://www.boost.org/LICENSE_1_0.txt)
-//
+/// @copyright Copyright (c) 2016 Tim Niederhausen (tim@rnc-ag.de)
+/// Distributed under the Boost Software License, Version 1.0.
+/// (See accompanying file LICENSE_1_0.txt or copy at
+/// http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef STORM_SOURCELOCATION_HPP
 #define STORM_SOURCELOCATION_HPP
 
-#include <storm/detail/config.hpp>
+#include "storm/detail/config.hpp"
 
 #if VSTD_HAS_PRAGMA_ONCE
 #pragma once
@@ -28,7 +25,8 @@ public:
     // ctor
   }
 
-  constexpr source_location(uint32_t line, const char* filename,
+  constexpr source_location(uint32_t line,
+                            const char* filename,
                             const char* function_name)
     : line_(line)
     , filename_(filename)
@@ -40,7 +38,6 @@ public:
   constexpr uint32_t line() const { return line_; }
   constexpr const char* filename() const { return filename_; }
   constexpr const char* function_name() const { return function_name_; }
-
 private:
   uint32_t line_;
   const char* filename_;

@@ -1,10 +1,7 @@
-//
-// Copyright (c) 2016 Tim Niederhausen (tim@rnc-ag.de)
-//
-// Distributed under the Boost Software License, Version 1.0.
-// (See accompanying file LICENSE_1_0.txt or copy at
-// http://www.boost.org/LICENSE_1_0.txt)
-//
+/// @copyright Copyright (c) 2016 Tim Niederhausen (tim@rnc-ag.de)
+/// Distributed under the Boost Software License, Version 1.0.
+/// (See accompanying file LICENSE_1_0.txt or copy at
+/// http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef STORM_SINKS_IMPL_ANSICOLORSINK_HPP
 #define STORM_SINKS_IMPL_ANSICOLORSINK_HPP
@@ -21,7 +18,8 @@ ansi_color_sink<WrappedSink>::ansi_color_sink(Args&&... args)
 }
 
 template <class WrappedSink>
-void ansi_color_sink<WrappedSink>::color_table(const ansi_color_string* color_table, std::size_t size)
+void ansi_color_sink<WrappedSink>::color_table(
+    const ansi_color_string* color_table, std::size_t size)
 {
   color_table_ = color_table;
   color_table_size_ = size;

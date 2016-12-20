@@ -1,15 +1,12 @@
-//
-// Copyright (c) 2016 Tim Niederhausen (tim@rnc-ag.de)
-//
-// Distributed under the Boost Software License, Version 1.0.
-// (See accompanying file LICENSE_1_0.txt or copy at
-// http://www.boost.org/LICENSE_1_0.txt)
-//
+/// @copyright Copyright (c) 2016 Tim Niederhausen (tim@rnc-ag.de)
+/// Distributed under the Boost Software License, Version 1.0.
+/// (See accompanying file LICENSE_1_0.txt or copy at
+/// http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef STORM_LOGSINK_HPP
 #define STORM_LOGSINK_HPP
 
-#include <storm/detail/config.hpp>
+#include "storm/detail/config.hpp"
 
 #if VSTD_HAS_PRAGMA_ONCE
 #pragma once
@@ -32,11 +29,13 @@ public:
   }
 
   template <typename... Args>
-  void log(const source_location& caller, int severity,
-           fmt::CStringRef format, const Args& ... args);
+  void log(const source_location& caller,
+           int severity,
+           fmt::CStringRef format,
+           const Args&... args);
 
   template <typename... Args>
-  void log(int severity, fmt::CStringRef format, const Args& ... args);
+  void log(int severity, fmt::CStringRef format, const Args&... args);
 
 private:
   Logger& logger_;
@@ -44,6 +43,6 @@ private:
 
 STORM_NS_END
 
-#include <storm/impl/logger_facade.hpp>
+#include "storm/impl/logger_facade.hpp"
 
 #endif

@@ -1,15 +1,12 @@
-//
-// Copyright (c) 2016 Tim Niederhausen (tim@rnc-ag.de)
-//
-// Distributed under the Boost Software License, Version 1.0.
-// (See accompanying file LICENSE_1_0.txt or copy at
-// http://www.boost.org/LICENSE_1_0.txt)
-//
+/// @copyright Copyright (c) 2016 Tim Niederhausen (tim@rnc-ag.de)
+/// Distributed under the Boost Software License, Version 1.0.
+/// (See accompanying file LICENSE_1_0.txt or copy at
+/// http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef STORM_SINKS_ANSICOLORSINK_HPP
 #define STORM_SINKS_ANSICOLORSINK_HPP
 
-#include <storm/detail/config.hpp>
+#include "storm/detail/config.hpp"
 
 #if VSTD_HAS_PRAGMA_ONCE
 #pragma once
@@ -39,6 +36,6 @@ private:
 
 STORM_NS_END
 
-#include <storm/sinks/impl/ansi_color_sink.hpp>
+#include "storm/sinks/impl/ansi_color_sink.hpp"
 
 #endif
