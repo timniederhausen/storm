@@ -12,6 +12,10 @@
 #pragma once
 #endif
 
+#if VSTD_PLATFORM_WINDOWS
+# include "storm/detail/windows_vtp_enabler.hpp"
+#endif
+
 #include <vstl/string_view_fwd.hpp>
 
 STORM_NS_BEGIN
@@ -32,6 +36,10 @@ public:
 private:
   const ansi_color_string* color_table_;
   std::size_t color_table_size_;
+
+#if VSTD_PLATFORM_WINDOWS
+  detail::windows_vtp_enabler vtp_enabler_;
+#endif
 };
 
 STORM_NS_END
