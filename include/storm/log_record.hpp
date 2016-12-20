@@ -23,7 +23,7 @@ STORM_NS_BEGIN
 
 struct log_record
 {
-  int severity;
+  uint32_t severity;
   source_location caller;
   fmt::MemoryWriter writer;
 };
