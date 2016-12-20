@@ -12,6 +12,14 @@ config("storm_lib_config") {
   defines = [ "STORM_SEPARATE_COMPILATION" ]
 }
 
+_storm_deps = [
+  "$external/asioext",
+  "$external/boost/libs/filesystem",
+  "$external/boost/libs/system",
+  "$external/fmt",
+  "$external/vstl",
+]
+
 source_set("storm_lib") {
   sources = [
     "include/storm/impl/basic_log_sink.cpp",
@@ -22,18 +30,13 @@ source_set("storm_lib") {
 
   public_configs = [ ":storm_config" ]
 
-  public_deps = [
-    "$external/asioext",
-    "$external/boost/libs/filesystem",
-    "$external/boost/libs/system",
-    "$external/fmt",
-    "$external/vstl",
-  ]
+  public_deps = _storm_deps
 }
 
 group("storm") {
   if (storm_header_only) {
     public_configs = [ ":storm_config" ]
+    public_deps = _storm_deps
   } else {
     public_deps = [
       ":storm_lib",
