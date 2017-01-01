@@ -9,6 +9,11 @@
 
 STORM_NS_BEGIN
 
+void basic_logger::unregister_all_sinks()
+{
+  sinks_.clear();
+}
+
 void basic_logger::log(const log_record& rec)
 {
   fmt::MemoryWriter w;

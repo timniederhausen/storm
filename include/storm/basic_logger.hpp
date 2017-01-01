@@ -26,6 +26,8 @@ public:
   template <class Sink>
   void register_sink(Sink& sink);
 
+  STORM_DECL void unregister_all_sinks();
+
   STORM_DECL void log(const log_record& rec);
 
 private:
