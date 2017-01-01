@@ -56,6 +56,7 @@ STORM_NS_END
                                                       BOOST_CURRENT_FUNCTION, \
                                                       #val1 " " #op " " #val2)
 # define STORM_DCHECK STORM_CHECK
+# define STORM_DCHECK_MSG STORM_CHECK_MSG
 # define STORM_DCHECK_OP STORM_CHECK_OP
 #else
 # define STORM_CHECK_MSG(condition, msg) \
@@ -66,6 +67,7 @@ STORM_NS_END
     ((val1) op (val2)) || storm::handle_check_failure(nullptr, 0, nullptr, \
                                                       #val1 " " #op " " #val2)
 # define STORM_DCHECK(condition) (void)0
+# define STORM_DCHECK_MSG(condition, msg) (void)0
 # define STORM_DCHECK_OP(name, op, val1, val2) (void)0
 #endif
 
