@@ -6,6 +6,8 @@
 #ifndef STORM_SINKS_IMPL_ANSICOLORSINK_HPP
 #define STORM_SINKS_IMPL_ANSICOLORSINK_HPP
 
+#include "storm/log_record.hpp"
+
 STORM_NS_BEGIN
 
 template <class WrappedSink>
@@ -26,11 +28,20 @@ void ansi_color_sink<WrappedSink>::color_table(
 }
 
 template <class WrappedSink>
+template <std::size_t N>
+void ansi_color_sink<WrappedSink>::color_table(const ansi_color_string (&color_table) [N])
+{
+  color_table_ = color_table;
+  color_table_size_ = N;
+}
+
+template <class WrappedSink>
 void ansi_color_sink<WrappedSink>::format(fmt::MemoryWriter& w,
                                           const log_record& rec)
 {
   bool found_color = false;
-  if (color_table_ && rec.severity < color_table_size_) {
+  if (color_table_ && rec.severity < color_table_size_ &&
+      color_table_[rec.severity]) {
     w << color_table_[rec.severity];
     found_color = true;
   }

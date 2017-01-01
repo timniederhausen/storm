@@ -16,9 +16,11 @@
 # include "storm/detail/windows_vtp_enabler.hpp"
 #endif
 
-#include <vstl/string_view_fwd.hpp>
+#include <fmt/format.h>
 
 STORM_NS_BEGIN
+
+struct log_record;
 
 using ansi_color_string = const char*;
 
@@ -30,6 +32,9 @@ public:
   ansi_color_sink(Args&&... args);
 
   void color_table(const ansi_color_string* color_table, std::size_t size);
+
+  template <std::size_t N>
+  void color_table(const ansi_color_string (&color_table) [N]);
 
   void format(fmt::MemoryWriter& w, const log_record& rec);
 
