@@ -29,6 +29,8 @@ public:
   STORM_DECL void close();
   STORM_DECL bool is_open() const;
 
+  STORM_DECL asioext::file_handle handle() const;
+
   STORM_DECL void write_record(const vstd::string_view& record);
 
 private:
