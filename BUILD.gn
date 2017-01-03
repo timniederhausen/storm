@@ -6,42 +6,68 @@ declare_args() {
 
 config("storm_config") {
   include_dirs = [ "include" ]
+  if (!storm_header_only) {
+    defines = [ "STORM_SEPARATE_COMPILATION" ]
+  }
 }
 
-config("storm_lib_config") {
-  defines = [ "STORM_SEPARATE_COMPILATION" ]
-}
-
-_storm_deps = [
-  "$external/asioext",
-  "$external/boost/libs/filesystem",
-  "$external/boost/libs/system",
-  "$external/fmt",
-  "$external/vstl",
-]
-
-source_set("storm_lib") {
+source_set("storm") {
   sources = [
-    "include/storm/impl/basic_log_sink.cpp",
-    "include/storm/impl/basic_logger.cpp",
-    "include/storm/sinks/impl/basic_file_sink.cpp",
-    "include/storm/sinks/impl/basic_stdout_sink.cpp",
+    "include/storm/basic_log_sink.hpp",
+    "include/storm/basic_logger.hpp",
+    "include/storm/check.hpp",
+    "include/storm/detail/config.hpp",
+    "include/storm/detail/namespaces.hpp",
+    "include/storm/impl/basic_log_sink.hpp",
+    "include/storm/impl/basic_logger.hpp",
+    "include/storm/impl/locking_logger.hpp",
+    "include/storm/impl/logger_facade.hpp",
+    "include/storm/locking_logger.hpp",
+    "include/storm/log.hpp",
+    "include/storm/log_record.hpp",
+    "include/storm/logger_facade.hpp",
+    "include/storm/sinks/ansi_color_sink.hpp",
+    "include/storm/sinks/basic_file_sink.hpp",
+    "include/storm/sinks/basic_stdout_sink.hpp",
+    "include/storm/sinks/impl/ansi_color_sink.hpp",
+    "include/storm/source_location.hpp",
+    "include/storm/synchronous_logger.hpp",
   ]
+
+  if (is_win) {
+    sources += [
+      "include/storm/detail/windows_console_color.hpp",
+      "include/storm/detail/windows_vtp_enabler.hpp",
+      "include/storm/sinks/impl/win_color_sink.hpp",
+      "include/storm/sinks/win_color_sink.hpp",
+    ]
+  }
+
+  if (!storm_header_only) {
+    sources += [
+      "include/storm/impl/basic_log_sink.cpp",
+      "include/storm/impl/basic_logger.cpp",
+      "include/storm/sinks/impl/basic_file_sink.cpp",
+      "include/storm/sinks/impl/basic_stdout_sink.cpp",
+    ]
+
+    if (is_win) {
+      sources += [
+        "include/storm/detail/impl/windows_console_color.cpp",
+        "include/storm/detail/impl/windows_vtp_enabler.cpp",
+      ]
+    }
+  }
 
   public_configs = [ ":storm_config" ]
 
-  public_deps = _storm_deps
-}
-
-group("storm") {
-  if (storm_header_only) {
-    public_configs = [ ":storm_config" ]
-    public_deps = _storm_deps
-  } else {
-    public_deps = [
-      ":storm_lib",
-    ]
-  }
+  public_deps = [
+    "$external/asioext",
+    "$external/boost/libs/filesystem",
+    "$external/boost/libs/system",
+    "$external/fmt",
+    "$external/vstl",
+  ]
 }
 
 source_set("check_handler_stderr_abort") {

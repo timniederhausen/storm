@@ -38,6 +38,7 @@ public:
   constexpr uint32_t line() const { return line_; }
   constexpr const char* filename() const { return filename_; }
   constexpr const char* function_name() const { return function_name_; }
+
 private:
   uint32_t line_;
   const char* filename_;
