@@ -27,6 +27,13 @@ windows_vtp_enabler::windows_vtp_enabler()
     return;
 
   const DWORD new_mode = old_out_mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+
+  // Seems like ENABLE_VIRTUAL_TERMINAL_PROCESSING is already set.
+  // Do nothing in this case (most likely there's another windows_vtp_enabler
+  // object somewhere).
+  if (new_mode == old_out_mode)
+    return;
+
   if (!SetConsoleMode(out_, new_mode))
     return;
 
