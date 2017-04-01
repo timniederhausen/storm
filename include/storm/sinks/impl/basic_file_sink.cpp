@@ -19,9 +19,22 @@ basic_file_sink::basic_file_sink()
 }
 
 basic_file_sink::basic_file_sink(const vstd::string_view& filename)
-  : filename_(std::move(filename))
-  , file_(filename_.c_str(), asioext::open_flags::access_write |
-                             asioext::open_flags::create_always)
+  : filename_(filename)
+  , file_(asioext::open(filename_.c_str(),
+                        asioext::open_flags::access_write |
+                        asioext::open_flags::create_always))
+{
+  // ctor
+}
+
+basic_file_sink::basic_file_sink(const vstd::string_view& filename,
+                                 boost::system::error_code& ec)
+  : filename_(filename)
+  , file_(asioext::open(filename_.c_str(),
+                        asioext::open_flags::access_write |
+                        asioext::open_flags::create_always,
+                        asioext::file_perms::create_default,
+                        asioext::file_attrs::none, ec))
 {
   // ctor
 }
@@ -29,8 +42,20 @@ basic_file_sink::basic_file_sink(const vstd::string_view& filename)
 void basic_file_sink::open(const vstd::string_view& filename)
 {
   assign(filename_, filename);
-  file_.open(filename_.c_str(), asioext::open_flags::access_write |
-                                asioext::open_flags::create_always);
+  file_ = asioext::open(filename_.c_str(),
+                        asioext::open_flags::access_write |
+                        asioext::open_flags::create_always);
+}
+
+void basic_file_sink::open(const vstd::string_view& filename,
+                           boost::system::error_code& ec)
+{
+  assign(filename_, filename);
+  file_ = asioext::open(filename_.c_str(),
+                        asioext::open_flags::access_write |
+                        asioext::open_flags::create_always,
+                        asioext::file_perms::create_default,
+                        asioext::file_attrs::none, ec);
 }
 
 void basic_file_sink::close()

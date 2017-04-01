@@ -19,6 +19,8 @@
 #include <vstl/string.hpp>
 #include <vstl/string_view.hpp>
 
+#include <boost/system/error_code.hpp>
+
 STORM_NS_BEGIN
 
 class basic_file_sink : public basic_log_sink
@@ -26,8 +28,12 @@ class basic_file_sink : public basic_log_sink
 public:
   STORM_DECL basic_file_sink();
   STORM_DECL basic_file_sink(const vstd::string_view& filename);
+  STORM_DECL basic_file_sink(const vstd::string_view& filename,
+                             boost::system::error_code& ec);
 
   STORM_DECL void open(const vstd::string_view& filename);
+  STORM_DECL void open(const vstd::string_view& filename,
+                       boost::system::error_code& ec);
   STORM_DECL void close();
   STORM_DECL bool is_open() const;
 
