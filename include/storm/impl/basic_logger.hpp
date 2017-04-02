@@ -32,6 +32,27 @@ void basic_logger::register_sink(Sink& sink)
   sinks_.push_back({&sink, &detail::forward_log<Sink>});
 }
 
+template <class Logger, typename... Args>
+void log(Logger& logger, const source_location& caller,
+         int severity, fmt::CStringRef format, const Args&... args)
+{
+  log_record rec;
+  rec.severity = severity;
+  rec.caller = caller;
+  rec.writer.write(format, args...);
+  logger.log(std::move(rec));
+}
+
+template <class Logger, typename... Args>
+void log(Logger& logger, int severity, fmt::CStringRef format,
+         const Args&... args)
+{
+  log_record rec;
+  rec.severity = severity;
+  rec.writer.write(format, args...);
+  logger.log(std::move(rec));
+}
+
 STORM_NS_END
 
 #endif

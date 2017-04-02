@@ -17,13 +17,13 @@
 #endif
 
 #if !defined(STORM_DEBUG) && !defined(STORM_LOG_SOURCE_LOCATION)
-# define STORM_LOG(facade, severity, format, ...) \
-  facade.log(severity, format, ##__VA_ARGS__);
+# define STORM_LOG(logger, severity, format, ...) \
+  storm::log(logger, severity, format, ##__VA_ARGS__);
 #else
-# define STORM_LOG(facade, severity, format, ...)                 \
-  do {                                                            \
-    facade.log(STORM_CURRENT_SOURCE_LOCATION(), severity, format, \
-               ##__VA_ARGS__);                                    \
+# define STORM_LOG(logger, severity, format, ...)       \
+  do {                                                  \
+    storm::log(logger, STORM_CURRENT_SOURCE_LOCATION(), \
+               severity, format, ##__VA_ARGS__);        \
   } while (false)
 #endif
 
