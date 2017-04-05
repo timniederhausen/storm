@@ -12,6 +12,8 @@
 #pragma once
 #endif
 
+#include <vstl/string_view.hpp>
+
 STORM_NS_BEGIN
 
 namespace detail {
