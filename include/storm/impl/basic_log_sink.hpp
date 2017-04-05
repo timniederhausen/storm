@@ -14,21 +14,10 @@
 
 STORM_NS_BEGIN
 
-namespace detail {
-
 template <class Formatter>
-void forward_format(void* ptr, fmt::MemoryWriter& w, const log_record& rec)
+void basic_log_sink::formatter(Formatter&& formatter)
 {
-  (*static_cast<Formatter*>(ptr))(w, rec);
-}
-
-}
-
-template <class Formatter>
-void basic_log_sink::formatter(Formatter& formatter)
-{
-  ptr_ = &formatter;
-  format_ = &detail::forward_format<Formatter>;
+  format_ = std::move(formatter);
 }
 
 STORM_NS_END

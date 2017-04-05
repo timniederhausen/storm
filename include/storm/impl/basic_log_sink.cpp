@@ -10,18 +10,11 @@
 
 STORM_NS_BEGIN
 
-basic_log_sink::basic_log_sink()
-  : ptr_(nullptr)
-  , format_(nullptr)
-{
-  // ctor
-}
+basic_log_sink::basic_log_sink() = default;
 
 void basic_log_sink::format(fmt::MemoryWriter& w, const log_record& rec)
 {
-  STORM_DCHECK(format_ != nullptr);
-  STORM_DCHECK(ptr_ != nullptr);
-  format_(ptr_, w, rec);
+  format_(w, rec);
 }
 
 STORM_NS_END

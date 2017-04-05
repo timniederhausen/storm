@@ -14,6 +14,8 @@
 
 #include <fmt/format.h>
 
+#include <functional>
+
 STORM_NS_BEGIN
 
 struct log_record;
@@ -24,13 +26,12 @@ public:
   STORM_DECL basic_log_sink();
 
   template <class Formatter>
-  void formatter(Formatter& formatter);
+  void formatter(Formatter&& formatter);
 
   STORM_DECL void format(fmt::MemoryWriter& w, const log_record& rec);
 
 private:
-  void* ptr_;
-  void (*format_)(void* ptr, fmt::MemoryWriter& w, const log_record& rec);
+  std::function<void (fmt::MemoryWriter& w, const log_record& rec)> format_;
 };
 
 STORM_NS_END
