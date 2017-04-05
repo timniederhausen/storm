@@ -7,7 +7,7 @@
 
 #include "storm/detail/namespaces.hpp"
 
-#include <asioext/open_flags.hpp>
+#include <asioext/open.hpp>
 
 #include <boost/asio/write.hpp>
 
