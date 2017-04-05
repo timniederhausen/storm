@@ -12,8 +12,6 @@
 #pragma once
 #endif
 
-#include "storm/source_location.hpp"
-
 #include <fmt/format.h>
 
 #include <vector>
@@ -41,14 +39,6 @@ private:
 
   std::vector<sink_storage> sinks_;
 };
-
-template <class Logger, typename... Args>
-void log(Logger& logger, const source_location& caller,
-         int severity, fmt::CStringRef format, const Args&... args);
-
-template <class Logger, typename... Args>
-void log(Logger& logger, int severity, fmt::CStringRef format,
-         const Args&... args);
 
 STORM_NS_END
 

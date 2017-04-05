@@ -16,6 +16,20 @@
 # include "storm/source_location.hpp"
 #endif
 
+#include <fmt/format.h>
+
+STORM_NS_BEGIN
+
+template <class Logger, typename... Args>
+void log(Logger& logger, const source_location& caller,
+         int severity, fmt::CStringRef format, const Args&... args);
+
+template <class Logger, typename... Args>
+void log(Logger& logger, int severity, fmt::CStringRef format,
+         const Args&... args);
+
+STORM_NS_END
+
 #if !defined(STORM_DEBUG) && !defined(STORM_LOG_SOURCE_LOCATION)
 # define STORM_LOG(logger, severity, format, ...) \
   storm::log(logger, severity, format, ##__VA_ARGS__);
@@ -26,5 +40,7 @@
                severity, format, ##__VA_ARGS__);        \
   } while (false)
 #endif
+
+#include "storm/impl/log.hpp"
 
 #endif
