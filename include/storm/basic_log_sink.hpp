@@ -28,6 +28,7 @@ public:
   template <class Formatter>
   void formatter(Formatter&& formatter);
 
+  STORM_DECL bool can_write(const log_record& rec) const noexcept;
   STORM_DECL void format(fmt::MemoryWriter& w, const log_record& rec);
 
 private:

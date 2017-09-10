@@ -12,6 +12,11 @@ STORM_NS_BEGIN
 
 basic_log_sink::basic_log_sink() = default;
 
+bool basic_log_sink::can_write(const log_record& rec) const noexcept
+{
+  return true;
+}
+
 void basic_log_sink::format(fmt::MemoryWriter& w, const log_record& rec)
 {
   format_(w, rec);

@@ -22,8 +22,10 @@ template <class Sink>
 void forward_log(void* ptr, fmt::MemoryWriter& w, const log_record& rec)
 {
   auto sink = static_cast<Sink*>(ptr);
-  sink->format(w, rec);
-  sink->write_record(vstd::string_view(w.data(), w.size()));
+  if (sink->can_write(rec)) {
+    sink->format(w, rec);
+    sink->write_record(vstd::string_view(w.data(), w.size()));
+  }
 }
 
 }
