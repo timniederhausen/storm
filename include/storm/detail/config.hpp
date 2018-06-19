@@ -6,12 +6,6 @@
 #ifndef STORM_DETAIL_CONFIG_HPP
 #define STORM_DETAIL_CONFIG_HPP
 
-#include <vstl/detail/config.hpp>
-
-#if VSTD_HAS_PRAGMA_ONCE
-#pragma once
-#endif
-
 // Project's main namespace.
 #define STORM_NS_BEGIN namespace storm {
 #define STORM_NS_END }
@@ -44,6 +38,39 @@
 
 #if !defined(STORM_DECL)
 # define STORM_DECL
+#endif
+
+// STORM_MSVC: Expands to the MSVC version (i.e. the _MSC_VER value).
+#if !defined(STORM_MSVC)
+# if defined(ASIOEXT_HAS_BOOST_CONFIG) && defined(BOOST_MSVC)
+#  define STORM_MSVC BOOST_MSVC
+# elif defined(_MSC_VER) && (defined(__INTELLISENSE__) \
+      || (!defined(__MWERKS__) && !defined(__EDG_VERSION__)))
+#  define STORM_MSVC _MSC_VER
+# endif
+#endif
+
+// STORM_HAS_PRAGMA_ONCE: Support for the '#pragma once' extension.
+#if !defined(STORM_HAS_PRAGMA_ONCE)
+# if !defined(STORM_DISABLE_PRAGMA_ONCE)
+#  if defined(__clang__)
+#   define STORM_HAS_PRAGMA_ONCE 1
+#  endif
+#  if defined(__GNUC__)
+#   if ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 4)) || (__GNUC__ > 3)
+// GCC supports it, but recent versions(?) seem to have performance
+// penalties associated with this: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58770
+//#    define STORM_HAS_PRAGMA_ONCE 1
+#   endif
+#  endif
+#  if defined(STORM_MSVC) && (STORM_MSVC >= 1020)
+#   define STORM_HAS_PRAGMA_ONCE 1
+#  endif
+# endif
+#endif
+
+#if STORM_HAS_PRAGMA_ONCE
+# pragma once
 #endif
 
 #include <boost/cstdint.hpp>
@@ -88,7 +115,7 @@ using boost::uintmax_t;
 STORM_NS_END
 
 #ifndef STORM_DEBUG
-# if defined(DEBUG) || defined(_DEBUG) || VSTD_DEBUG
+# if defined(DEBUG) || defined(_DEBUG)
 #  define STORM_DEBUG 1
 # endif
 #endif

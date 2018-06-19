@@ -43,7 +43,7 @@ asioext::file_handle basic_stdout_sink::handle() const
   return file_;
 }
 
-void basic_stdout_sink::write_record(const vstd::string_view& record)
+void basic_stdout_sink::write_record(std::string_view record)
 {
   asio::write(file_, asio::buffer(record.data(), record.size()));
 }

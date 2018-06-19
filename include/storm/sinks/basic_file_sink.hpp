@@ -8,7 +8,7 @@
 
 #include "storm/detail/config.hpp"
 
-#if VSTD_HAS_PRAGMA_ONCE
+#if STORM_HAS_PRAGMA_ONCE
 #pragma once
 #endif
 
@@ -16,10 +16,10 @@
 
 #include <asioext/scoped_file_handle.hpp>
 
-#include <vstl/string.hpp>
-#include <vstl/string_view.hpp>
-
 #include <boost/system/error_code.hpp>
+
+#include <string>
+#include <string_view>
 
 STORM_NS_BEGIN
 
@@ -27,22 +27,22 @@ class basic_file_sink : public basic_log_sink
 {
 public:
   STORM_DECL basic_file_sink();
-  STORM_DECL basic_file_sink(const vstd::string_view& filename);
-  STORM_DECL basic_file_sink(const vstd::string_view& filename,
+  STORM_DECL basic_file_sink(std::string filename);
+  STORM_DECL basic_file_sink(std::string filename,
                              boost::system::error_code& ec);
 
-  STORM_DECL void open(const vstd::string_view& filename);
-  STORM_DECL void open(const vstd::string_view& filename,
+  STORM_DECL void open(std::string_view filename);
+  STORM_DECL void open(std::string_view filename,
                        boost::system::error_code& ec);
   STORM_DECL void close();
   STORM_DECL bool is_open() const;
 
-  STORM_DECL const vstd::string& filename() const;
+  STORM_DECL const std::string& filename() const;
 
-  STORM_DECL void write_record(const vstd::string_view& record);
+  STORM_DECL void write_record(std::string_view record);
 
 private:
-  vstd::string filename_;
+  std::string filename_;
   asioext::scoped_file_handle file_;
 };
 

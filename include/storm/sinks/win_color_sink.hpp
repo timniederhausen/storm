@@ -8,15 +8,15 @@
 
 #include "storm/detail/config.hpp"
 
-#if VSTD_HAS_PRAGMA_ONCE
+#if STORM_HAS_PRAGMA_ONCE
 #pragma once
 #endif
 
-#include <vstl/string_view_fwd.hpp>
+#include <string_view>
 
 STORM_NS_BEGIN
 
-#if !VSTD_PLATFORM_WINDOWS
+#if !defined(_WIN32)
 # error "Only available on Windows!"
 #endif
 
@@ -31,7 +31,7 @@ public:
 
   void color_table(const win_console_color* color_table, std::size_t size);
 
-  void write_record(const vstd::string_view& record);
+  void write_record(std::string_view record);
 
 private:
   const win_console_color* color_table_;

@@ -8,7 +8,7 @@
 
 #include "storm/detail/config.hpp"
 
-#if VSTD_HAS_PRAGMA_ONCE
+#if STORM_HAS_PRAGMA_ONCE
 #pragma once
 #endif
 

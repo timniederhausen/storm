@@ -8,7 +8,7 @@
 
 #include <storm/detail/config.hpp>
 
-#if VSTD_HAS_PRAGMA_ONCE
+#if STORM_HAS_PRAGMA_ONCE
 #pragma once
 #endif
 
@@ -32,13 +32,11 @@ STORM_NS_END
 
 #if !defined(STORM_DEBUG) && !defined(STORM_LOG_SOURCE_LOCATION)
 # define STORM_LOG(logger, severity, format, ...) \
-  storm::log(logger, severity, format, ##__VA_ARGS__);
+  storm::log(logger, severity, format, ##__VA_ARGS__)
 #else
 # define STORM_LOG(logger, severity, format, ...)       \
-  do {                                                  \
-    storm::log(logger, STORM_CURRENT_SOURCE_LOCATION(), \
-               severity, format, ##__VA_ARGS__);        \
-  } while (false)
+  storm::log(logger, STORM_CURRENT_SOURCE_LOCATION(), \
+             severity, format, ##__VA_ARGS__)
 #endif
 
 #include "storm/impl/log.hpp"

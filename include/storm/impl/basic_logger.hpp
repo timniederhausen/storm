@@ -8,11 +8,11 @@
 
 #include "storm/detail/config.hpp"
 
-#if VSTD_HAS_PRAGMA_ONCE
+#if STORM_HAS_PRAGMA_ONCE
 #pragma once
 #endif
 
-#include <vstl/string_view.hpp>
+#include <string_view>
 
 STORM_NS_BEGIN
 
@@ -24,7 +24,7 @@ void forward_log(void* ptr, fmt::MemoryWriter& w, const log_record& rec)
   auto sink = static_cast<Sink*>(ptr);
   if (sink->can_write(rec)) {
     sink->format(w, rec);
-    sink->write_record(vstd::string_view(w.data(), w.size()));
+    sink->write_record(std::string_view(w.data(), w.size()));
   }
 }
 

@@ -8,7 +8,7 @@
 
 #include "storm/detail/config.hpp"
 
-#if VSTD_HAS_PRAGMA_ONCE
+#if STORM_HAS_PRAGMA_ONCE
 #pragma once
 #endif
 
@@ -16,7 +16,7 @@
 
 #include <asioext/file_handle.hpp>
 
-#include <vstl/string_view.hpp>
+#include <string_view>
 
 STORM_NS_BEGIN
 
@@ -31,7 +31,7 @@ public:
 
   STORM_DECL asioext::file_handle handle() const;
 
-  STORM_DECL void write_record(const vstd::string_view& record);
+  STORM_DECL void write_record(std::string_view record);
 
 private:
   asioext::file_handle file_;

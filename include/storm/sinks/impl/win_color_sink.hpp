@@ -28,7 +28,7 @@ void win_color_sink<WrappedSink>::color_table(
 }
 
 template <class WrappedSink>
-void win_color_sink<WrappedSink>::write_record(const vstd::string_view& record)
+void win_color_sink<WrappedSink>::write_record(std::string_view record)
 {
   if (color_table_ && rec.severity < color_table_size_) {
     detail::scoped_console_color guard(WrappedSink::handle(),

@@ -63,7 +63,6 @@ source_set("storm") {
     "$external/boost/libs/filesystem",
     "$external/boost/libs/system",
     "$external/fmt",
-    "$external/vstl",
   ]
 }
 

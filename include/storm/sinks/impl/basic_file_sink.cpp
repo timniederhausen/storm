@@ -18,8 +18,8 @@ basic_file_sink::basic_file_sink()
   // ctor
 }
 
-basic_file_sink::basic_file_sink(const vstd::string_view& filename)
-  : filename_(filename)
+basic_file_sink::basic_file_sink(std::string filename)
+  : filename_(std::move(filename))
   , file_(asioext::open(filename_.c_str(),
                         asioext::open_flags::access_write |
                         asioext::open_flags::create_always))
@@ -27,35 +27,31 @@ basic_file_sink::basic_file_sink(const vstd::string_view& filename)
   // ctor
 }
 
-basic_file_sink::basic_file_sink(const vstd::string_view& filename,
+basic_file_sink::basic_file_sink(std::string filename,
                                  boost::system::error_code& ec)
-  : filename_(filename)
+  : filename_(std::move(filename))
   , file_(asioext::open(filename_.c_str(),
                         asioext::open_flags::access_write |
-                        asioext::open_flags::create_always,
-                        asioext::file_perms::create_default,
-                        asioext::file_attrs::none, ec))
+                        asioext::open_flags::create_always, ec))
 {
   // ctor
 }
 
-void basic_file_sink::open(const vstd::string_view& filename)
+void basic_file_sink::open(std::string_view filename)
 {
-  assign(filename_, filename);
+  filename_ = filename;
   file_ = asioext::open(filename_.c_str(),
                         asioext::open_flags::access_write |
                         asioext::open_flags::create_always);
 }
 
-void basic_file_sink::open(const vstd::string_view& filename,
+void basic_file_sink::open(std::string_view filename,
                            boost::system::error_code& ec)
 {
-  assign(filename_, filename);
+  filename_ = filename;
   file_ = asioext::open(filename_.c_str(),
                         asioext::open_flags::access_write |
-                        asioext::open_flags::create_always,
-                        asioext::file_perms::create_default,
-                        asioext::file_attrs::none, ec);
+                        asioext::open_flags::create_always, ec);
 }
 
 void basic_file_sink::close()
@@ -69,12 +65,12 @@ bool basic_file_sink::is_open() const
   return file_.is_open();
 }
 
-const vstd::string& basic_file_sink::filename() const
+const std::string& basic_file_sink::filename() const
 {
   return filename_;
 }
 
-void basic_file_sink::write_record(const vstd::string_view& record)
+void basic_file_sink::write_record(std::string_view record)
 {
   asio::write(file_, asio::buffer(record.data(), record.size()));
 }
