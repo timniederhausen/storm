@@ -12,7 +12,7 @@
 #pragma once
 #endif
 
-#if VSTD_PLATFORM_WINDOWS
+#if defined(_WIN32)
 # include "storm/detail/windows_vtp_enabler.hpp"
 #endif
 
@@ -42,7 +42,7 @@ private:
   const ansi_color_string* color_table_;
   std::size_t color_table_size_;
 
-#if VSTD_PLATFORM_WINDOWS
+#if defined(_WIN32)
   detail::windows_vtp_enabler vtp_enabler_;
 #endif
 };
