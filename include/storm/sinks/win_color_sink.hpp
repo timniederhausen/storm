@@ -13,6 +13,7 @@
 #endif
 
 #include <string_view>
+#include <cstdint>
 
 STORM_NS_BEGIN
 
@@ -20,7 +21,7 @@ STORM_NS_BEGIN
 # error "Only available on Windows!"
 #endif
 
-using win_console_color = uint16_t;
+using win_console_color = std::uint16_t;
 
 template <class WrappedSink>
 class win_color_sink : public WrappedSink

@@ -12,6 +12,8 @@
 #pragma once
 #endif
 
+#include <cstdint>
+
 STORM_NS_BEGIN
 
 namespace detail {
@@ -27,7 +29,7 @@ public:
 
 private:
   void* out_;
-  uint32_t old_mode_;
+  std::uint32_t old_mode_;
 };
 
 }

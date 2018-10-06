@@ -12,6 +12,8 @@
 #pragma once
 #endif
 
+#include <cstdint>
+
 STORM_NS_BEGIN
 
 namespace detail {
@@ -25,20 +27,22 @@ public:
   STORM_DECL global_console_color();
   STORM_DECL ~global_console_color();
 
-  STORM_DECL void push_color(void* handle, uint16_t color);
+  STORM_DECL void push_color(void* handle, std::uint16_t color);
   STORM_DECL void pop_color();
 
 private:
   void* handle_;
-  uint16_t old_color_attrs_;
+  std::uint16_t old_color_attrs_;
 };
 
 STORM_DECL global_console_color& get_console_color();
 
 struct scoped_console_color
 {
-  STORM_DECL scoped_console_color(void* handle, uint16_t color);
+  STORM_DECL scoped_console_color(void* handle, std::uint16_t color);
   STORM_DECL ~scoped_console_color();
+
+  scoped_console_color(const scoped_console_color&) = delete;
 };
 
 }
