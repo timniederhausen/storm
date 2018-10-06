@@ -14,7 +14,7 @@
 
 #include "storm/basic_log_sink.hpp"
 
-#include <asioext/scoped_file_handle.hpp>
+#include <asioext/unique_file_handle.hpp>
 
 #include <boost/system/error_code.hpp>
 
@@ -43,7 +43,7 @@ public:
 
 private:
   std::string filename_;
-  asioext::scoped_file_handle file_;
+  asioext::unique_file_handle file_;
 };
 
 STORM_NS_END

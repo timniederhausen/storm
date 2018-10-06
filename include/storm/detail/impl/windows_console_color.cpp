@@ -21,14 +21,14 @@ global_console_color::global_console_color()
 global_console_color::~global_console_color()
 {
   if (handle_ != nullptr)
-    SetConsoleTextAttribute(handle_, old_color_attrs_);
+    ::SetConsoleTextAttribute(handle_, old_color_attrs_);
 }
 
 void global_console_color::push_color(void* handle, uint16_t color)
 {
   CONSOLE_SCREEN_BUFFER_INFO buffer_info;
-  if (!GetConsoleScreenBufferInfo(handle, &buffer_info) ||
-      !SetConsoleTextAttribute(handle, color | FOREGROUND_INTENSITY))
+  if (!::GetConsoleScreenBufferInfo(handle, &buffer_info) ||
+      !::SetConsoleTextAttribute(handle, color | FOREGROUND_INTENSITY))
     return;
 
   handle_ = handle;
@@ -38,7 +38,7 @@ void global_console_color::push_color(void* handle, uint16_t color)
 void global_console_color::pop_color()
 {
   if (handle_ != nullptr)
-    SetConsoleTextAttribute(handle_, old_color_attrs_);
+    ::SetConsoleTextAttribute(handle_, old_color_attrs_);
 }
 
 global_console_color& get_console_color()

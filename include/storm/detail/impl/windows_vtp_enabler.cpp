@@ -16,14 +16,14 @@ static const DWORD ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
 #endif
 
 windows_vtp_enabler::windows_vtp_enabler()
-  : out_(GetStdHandle(STD_OUTPUT_HANDLE))
+  : out_(::GetStdHandle(STD_OUTPUT_HANDLE))
   , old_mode_(0xffffffff)
 {
   if (out_ == INVALID_HANDLE_VALUE)
     return;
 
   DWORD old_out_mode = 0;
-  if (!GetConsoleMode(out_, &old_out_mode))
+  if (!::GetConsoleMode(out_, &old_out_mode))
     return;
 
   const DWORD new_mode = old_out_mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING;
@@ -34,7 +34,7 @@ windows_vtp_enabler::windows_vtp_enabler()
   if (new_mode == old_out_mode)
     return;
 
-  if (!SetConsoleMode(out_, new_mode))
+  if (!::SetConsoleMode(out_, new_mode))
     return;
 
   old_mode_ = old_out_mode;
@@ -43,7 +43,7 @@ windows_vtp_enabler::windows_vtp_enabler()
 windows_vtp_enabler::~windows_vtp_enabler()
 {
   if (old_mode_ != 0xffffffff)
-    SetConsoleMode(out_, old_mode_);
+    ::SetConsoleMode(out_, old_mode_);
 }
 
 }
