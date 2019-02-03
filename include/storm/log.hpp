@@ -12,9 +12,7 @@
 # pragma once
 #endif
 
-#if defined(STORM_DEBUG) || defined(STORM_LOG_SOURCE_LOCATION)
-# include "storm/source_location.hpp"
-#endif
+#include "storm/source_location.hpp"
 
 #include <fmt/format.h>
 
@@ -35,9 +33,9 @@ STORM_NS_END
   auto& storm_logger = logger; \
   if (storm_logger.accepts(static_cast<int>(severity))) { \
     storm_logger.log({ \
-      static_cast<int>(severity), \
-      std::string_view(format), \
-      fmt::format_args(fmt::make_format_args(__VA_ARGS__)) \
+      static_cast<int>(severity), {}, \
+      format, \
+      fmt::make_format_args(__VA_ARGS__) \
     }); \
   } } while (false)
 #else
@@ -47,8 +45,8 @@ STORM_NS_END
     storm_logger.log({ \
       static_cast<int>(severity), \
       STORM_CURRENT_SOURCE_LOCATION(), \
-      std::string_view(format), \
-      fmt::format_args(fmt::make_format_args(__VA_ARGS__)) \
+      format, \
+      fmt::make_format_args(__VA_ARGS__) \
     }); \
   } } while (false)
 #endif

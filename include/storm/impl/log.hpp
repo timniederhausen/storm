@@ -20,14 +20,14 @@ template <class Logger, typename... Args>
 void log(Logger& logger, const source_location& caller,
          int severity, std::string_view format, const Args&... args)
 {
-  logger.log({severity, {}, format, fmt::make_format_args(args...)});
+  logger.log({severity, caller, format, fmt::make_format_args(args...)});
 }
 
 template <class Logger, typename... Args>
 void log(Logger& logger, int severity, std::string_view format,
          const Args&... args)
 {
-  logger.log({severity, caller, format, fmt::make_format_args(args...)});
+  logger.log({severity, {}, format, fmt::make_format_args(args...)});
 }
 
 STORM_NS_END
