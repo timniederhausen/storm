@@ -24,10 +24,11 @@ source_set("storm") {
     "include/storm/locking_logger.hpp",
     "include/storm/log.hpp",
     "include/storm/log_record.hpp",
-    "include/storm/sinks/ansi_color_sink.hpp",
+    "include/storm/log_sinks.hpp",
     "include/storm/sinks/basic_file_sink.hpp",
-    "include/storm/sinks/basic_stdout_sink.hpp",
-    "include/storm/sinks/impl/ansi_color_sink.hpp",
+    "include/storm/sinks/basic_stdio_sink.hpp",
+    "include/storm/sinks/text_file_sink.hpp",
+    "include/storm/sinks/text_stdio_sink.hpp",
     "include/storm/source_location.hpp",
   ]
 
@@ -35,8 +36,6 @@ source_set("storm") {
     sources += [
       "include/storm/detail/windows_console_color.hpp",
       "include/storm/detail/windows_vtp_enabler.hpp",
-      "include/storm/sinks/impl/win_color_sink.hpp",
-      "include/storm/sinks/win_color_sink.hpp",
     ]
   }
 
@@ -45,7 +44,9 @@ source_set("storm") {
       "include/storm/impl/basic_log_sink.cpp",
       "include/storm/impl/basic_logger.cpp",
       "include/storm/sinks/impl/basic_file_sink.cpp",
-      "include/storm/sinks/impl/basic_stdout_sink.cpp",
+      "include/storm/sinks/impl/basic_stdio_sink.cpp",
+      "include/storm/sinks/impl/text_file_sink.cpp",
+      "include/storm/sinks/impl/text_stdio_sink.cpp",
     ]
 
     if (is_win) {

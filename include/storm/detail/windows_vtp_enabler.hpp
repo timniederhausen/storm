@@ -27,8 +27,12 @@ public:
   STORM_DECL windows_vtp_enabler();
   STORM_DECL ~windows_vtp_enabler();
 
+  STORM_DECL void reset();
+
+  STORM_DECL bool colors_enabled() const noexcept;
+
 private:
-  void* out_;
+  void* handle_;
   std::uint32_t old_mode_;
 };
 

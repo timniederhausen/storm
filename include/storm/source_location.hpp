@@ -25,7 +25,7 @@ public:
     // ctor
   }
 
-  constexpr source_location(uint32_t line,
+  constexpr source_location(int line,
                             const char* filename,
                             const char* function_name)
     : line_(line)
@@ -35,12 +35,12 @@ public:
     // ctor
   }
 
-  constexpr uint32_t line() const { return line_; }
+  constexpr int line() const { return line_; }
   constexpr const char* filename() const { return filename_; }
   constexpr const char* function_name() const { return function_name_; }
 
 private:
-  uint32_t line_;
+  int line_;
   const char* filename_;
   const char* function_name_;
 };

@@ -5,22 +5,21 @@
 
 #include "storm/basic_logger.hpp"
 
-#include <fmt/format.h>
-
 STORM_NS_BEGIN
 
-void basic_logger::unregister_all_sinks()
-{
-  sinks_.clear();
-}
+basic_logger::basic_logger(log_sinks sinks)
+  : sinks_(std::move(sinks))
+{}
+
+basic_logger::basic_logger(log_sinks sinks, std::string name)
+  : sinks_(std::move(sinks))
+  , name_(std::move(name))
+{}
 
 void basic_logger::log(const log_record& rec)
 {
-  fmt::MemoryWriter w;
-  for (const auto& sink : sinks_) {
-    sink.log(sink.ptr, w, rec);
-    w.clear();
-  }
+  for (const auto& sink : sinks_.sinks_)
+    sink.log(sink.ptr, *this, rec);
 }
 
 STORM_NS_END

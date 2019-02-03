@@ -12,37 +12,32 @@
 #pragma once
 #endif
 
-#include <fmt/format.h>
+#include "storm/log_sinks.hpp"
 
-#include <vector>
+#include <string>
 
 STORM_NS_BEGIN
-
-struct log_record;
 
 class basic_logger
 {
 public:
-  template <class Sink>
-  void register_sink(Sink& sink);
+  STORM_DECL basic_logger(log_sinks sinks);
+  STORM_DECL basic_logger(log_sinks sinks, std::string name);
 
-  STORM_DECL void unregister_all_sinks();
+  const log_sinks& sinks() const noexcept
+  { return sinks_; }
+
+  bool accepts(int severity) const noexcept
+  { return true; }
 
   STORM_DECL void log(const log_record& rec);
 
 private:
-  struct sink_storage
-  {
-    void* ptr;
-    void (*log)(void* ptr, fmt::MemoryWriter& w, const log_record& rec);
-  };
-
-  std::vector<sink_storage> sinks_;
+  log_sinks sinks_;
+  std::string name_;
 };
 
 STORM_NS_END
-
-#include "storm/impl/basic_logger.hpp"
 
 #if defined(STORM_HEADER_ONLY)
 # include "storm/impl/basic_logger.cpp"

@@ -39,9 +39,7 @@ public:
 
   STORM_DECL const std::string& filename() const;
 
-  STORM_DECL void write_record(std::string_view record);
-
-private:
+protected:
   std::string filename_;
   asioext::unique_file_handle file_;
 };

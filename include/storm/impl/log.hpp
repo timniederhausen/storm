@@ -18,23 +18,16 @@ STORM_NS_BEGIN
 
 template <class Logger, typename... Args>
 void log(Logger& logger, const source_location& caller,
-         int severity, fmt::CStringRef format, const Args&... args)
+         int severity, std::string_view format, const Args&... args)
 {
-  log_record rec;
-  rec.severity = severity;
-  rec.caller = caller;
-  rec.writer.write(format, args...);
-  logger.log(std::move(rec));
+  logger.log({severity, {}, format, fmt::make_format_args(args...)});
 }
 
 template <class Logger, typename... Args>
-void log(Logger& logger, int severity, fmt::CStringRef format,
+void log(Logger& logger, int severity, std::string_view format,
          const Args&... args)
 {
-  log_record rec;
-  rec.severity = severity;
-  rec.writer.write(format, args...);
-  logger.log(std::move(rec));
+  logger.log({severity, caller, format, fmt::make_format_args(args...)});
 }
 
 STORM_NS_END

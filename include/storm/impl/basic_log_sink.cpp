@@ -4,22 +4,12 @@
 /// http://www.boost.org/LICENSE_1_0.txt)
 
 #include "storm/basic_log_sink.hpp"
-#include "storm/check.hpp"
-
-#include <fmt/format.h>
 
 STORM_NS_BEGIN
 
-basic_log_sink::basic_log_sink() = default;
-
-bool basic_log_sink::can_write(const log_record& rec) const noexcept
-{
-  return true;
-}
-
-void basic_log_sink::format(fmt::MemoryWriter& w, const log_record& rec)
-{
-  format_(w, rec);
-}
+basic_log_sink::basic_log_sink()
+  : min_severity_((std::numeric_limits<int>::min)())
+  , max_severity_((std::numeric_limits<int>::max)())
+{}
 
 STORM_NS_END

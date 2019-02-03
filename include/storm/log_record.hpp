@@ -14,15 +14,18 @@
 
 #include "storm/source_location.hpp"
 
-#include <fmt/format.h>
+#include <fmt/core.h>
+
+#include <string_view>
 
 STORM_NS_BEGIN
 
 struct log_record
 {
-  uint32_t severity;
+  int severity;
   source_location caller;
-  fmt::MemoryWriter writer;
+  std::string_view format;
+  fmt::format_args args;
 };
 
 STORM_NS_END

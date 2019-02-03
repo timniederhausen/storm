@@ -12,32 +12,27 @@
 #pragma once
 #endif
 
-#include <fmt/format.h>
-
-#include <functional>
+#include "storm/log_record.hpp"
 
 STORM_NS_BEGIN
-
-struct log_record;
 
 class basic_log_sink
 {
 public:
   STORM_DECL basic_log_sink();
 
-  template <class Formatter>
-  void formatter(Formatter&& formatter);
+  bool accepts(const log_record& rec) const noexcept
+  { return rec.severity >= min_severity_ && rec.severity <= max_severity_; }
 
-  STORM_DECL bool can_write(const log_record& rec) const noexcept;
-  STORM_DECL void format(fmt::MemoryWriter& w, const log_record& rec);
+  void min_severity(int min_severity) noexcept { min_severity_ = min_severity; }
+  void max_severity(int max_severity) noexcept { max_severity_ = max_severity; }
 
 private:
-  std::function<void (fmt::MemoryWriter& w, const log_record& rec)> format_;
+  int min_severity_;
+  int max_severity_;
 };
 
 STORM_NS_END
-
-#include "storm/impl/basic_log_sink.hpp"
 
 #if defined(STORM_HEADER_ONLY)
 # include "storm/impl/basic_log_sink.cpp"

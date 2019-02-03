@@ -16,34 +16,56 @@ static const DWORD ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
 #endif
 
 windows_vtp_enabler::windows_vtp_enabler()
-  : out_(::GetStdHandle(STD_OUTPUT_HANDLE))
-  , old_mode_(0xffffffff)
 {
-  if (out_ == INVALID_HANDLE_VALUE)
-    return;
+  auto handle = ::GetStdHandle(STD_OUTPUT_HANDLE);
 
   DWORD old_out_mode = 0;
-  if (!::GetConsoleMode(out_, &old_out_mode))
+  if (!::GetConsoleMode(handle, &old_out_mode)) {
+    handle_ = nullptr;
+    old_mode_ = 0;
     return;
+  }
 
   const DWORD new_mode = old_out_mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 
   // Seems like ENABLE_VIRTUAL_TERMINAL_PROCESSING is already set.
   // Do nothing in this case (most likely there's another windows_vtp_enabler
   // object somewhere).
-  if (new_mode == old_out_mode)
+  if (new_mode == old_out_mode) {
+    handle_ = nullptr;
+    old_mode_ = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
     return;
+  }
 
-  if (!::SetConsoleMode(out_, new_mode))
+  if (!::SetConsoleMode(handle, new_mode)) {
+    handle_ = nullptr;
+    old_mode_ = 0;
     return;
+  }
 
+  handle_ = handle;
   old_mode_ = old_out_mode;
 }
 
 windows_vtp_enabler::~windows_vtp_enabler()
 {
-  if (old_mode_ != 0xffffffff)
-    ::SetConsoleMode(out_, old_mode_);
+  if (handle_)
+    ::SetConsoleMode(handle_, old_mode_);
+}
+
+void windows_vtp_enabler::reset()
+{
+  if (handle_) {
+    ::SetConsoleMode(handle_, old_mode_);
+    handle_ = nullptr;
+  }
+}
+
+bool windows_vtp_enabler::colors_enabled() const noexcept
+{
+  // 1) we have a handle_ => we enabled VT ourselves
+  // 2) old_mode_ == EVT => someone else already did it
+  return handle_ || old_mode_ == ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 }
 
 }

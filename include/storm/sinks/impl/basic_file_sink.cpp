@@ -22,7 +22,8 @@ basic_file_sink::basic_file_sink(std::string filename)
   : filename_(std::move(filename))
   , file_(asioext::open(filename_.c_str(),
                         asioext::open_flags::access_write |
-                        asioext::open_flags::create_always))
+                        asioext::open_flags::create_always |
+                        asioext::open_flags::exclusive_write))
 {
   // ctor
 }
@@ -32,7 +33,8 @@ basic_file_sink::basic_file_sink(std::string filename,
   : filename_(std::move(filename))
   , file_(asioext::open(filename_.c_str(),
                         asioext::open_flags::access_write |
-                        asioext::open_flags::create_always, ec))
+                        asioext::open_flags::create_always |
+                        asioext::open_flags::exclusive_write, ec))
 {
   // ctor
 }
@@ -42,7 +44,8 @@ void basic_file_sink::open(std::string_view filename)
   filename_ = filename;
   file_ = asioext::open(filename_.c_str(),
                         asioext::open_flags::access_write |
-                        asioext::open_flags::create_always);
+                        asioext::open_flags::create_always |
+                        asioext::open_flags::exclusive_write);
 }
 
 void basic_file_sink::open(std::string_view filename,
@@ -51,7 +54,8 @@ void basic_file_sink::open(std::string_view filename,
   filename_ = filename;
   file_ = asioext::open(filename_.c_str(),
                         asioext::open_flags::access_write |
-                        asioext::open_flags::create_always, ec);
+                        asioext::open_flags::create_always |
+                        asioext::open_flags::exclusive_write, ec);
 }
 
 void basic_file_sink::close()
@@ -68,11 +72,6 @@ bool basic_file_sink::is_open() const
 const std::string& basic_file_sink::filename() const
 {
   return filename_;
-}
-
-void basic_file_sink::write_record(std::string_view record)
-{
-  asio::write(file_, asio::buffer(record.data(), record.size()));
 }
 
 STORM_NS_END
