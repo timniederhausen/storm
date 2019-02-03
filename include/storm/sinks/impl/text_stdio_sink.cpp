@@ -30,7 +30,6 @@ void text_stdio_sink::log(basic_logger& logger, const log_record& rec)
   fmt::memory_buffer out;
   if (color_table_ && rec.severity < color_table_size_ &&
       color_table_[rec.severity]) {
-    const auto color = color_table_[rec.severity];
 #if defined(_WIN32)
     if (vtp_enabler_.colors_enabled()) {
 #endif
