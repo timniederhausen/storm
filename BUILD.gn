@@ -15,7 +15,6 @@ source_set("storm") {
   sources = [
     "include/storm/basic_log_sink.hpp",
     "include/storm/basic_logger.hpp",
-    "include/storm/check.hpp",
     "include/storm/detail/config.hpp",
     "include/storm/detail/namespaces.hpp",
     "include/storm/impl/basic_log_sink.hpp",
@@ -64,14 +63,5 @@ source_set("storm") {
     "$external/boost/libs/filesystem",
     "$external/boost/libs/system",
     "$external/fmt",
-  ]
-}
-
-source_set("check_handler_stderr_abort") {
-  sources = [
-    "src/check_handler_stderr_abort.cpp",
-  ]
-  deps = [
-    ":storm",
   ]
 }
