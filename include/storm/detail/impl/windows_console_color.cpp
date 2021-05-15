@@ -31,14 +31,18 @@ void global_console_color::push_color(void* handle, uint16_t color)
       !::SetConsoleTextAttribute(handle, color | FOREGROUND_INTENSITY))
     return;
 
-  handle_ = handle;
-  old_color_attrs_ = buffer_info.wAttributes;
+  if (!handle_) {
+    handle_ = handle;
+    old_color_attrs_ = buffer_info.wAttributes;
+  }
 }
 
-void global_console_color::pop_color()
+void global_console_color::restore_color()
 {
-  if (handle_ != nullptr)
+  if (handle_ != nullptr) {
     ::SetConsoleTextAttribute(handle_, old_color_attrs_);
+    handle_ = nullptr;
+  }
 }
 
 global_console_color& get_console_color()
@@ -54,7 +58,7 @@ scoped_console_color::scoped_console_color(void* handle, uint16_t color)
 
 scoped_console_color::~scoped_console_color()
 {
-  get_console_color().pop_color();
+  get_console_color().restore_color();
 }
 
 }

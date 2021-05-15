@@ -28,7 +28,7 @@ public:
   STORM_DECL ~global_console_color();
 
   STORM_DECL void push_color(void* handle, std::uint16_t color);
-  STORM_DECL void pop_color();
+  STORM_DECL void restore_color();
 
 private:
   void* handle_;
