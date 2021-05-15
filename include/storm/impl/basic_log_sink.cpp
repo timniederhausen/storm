@@ -5,6 +5,8 @@
 
 #include "storm/basic_log_sink.hpp"
 
+#include <limits>
+
 STORM_NS_BEGIN
 
 basic_log_sink::basic_log_sink()
