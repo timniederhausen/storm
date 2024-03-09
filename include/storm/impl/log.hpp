@@ -16,18 +16,27 @@
 
 STORM_NS_BEGIN
 
-template <class Logger, typename... Args>
-void log(Logger& logger, const source_location& caller,
-         int severity, std::string_view format, const Args&... args)
+template <typename Logger, typename... T>
+void log(Logger& logger, const source_location& caller, int severity,
+         fmt::format_string<T...> format, T&&... args)
 {
-  logger.log({severity, caller, format, fmt::make_format_args(args...)});
+  if (logger.accepts(severity)) {
+    // TODO: there must be a better way, right?
+    const fmt::string_view format_str(format);
+    const std::string_view format_str_std(format_str.data(), format_str.size());
+    logger.log({severity, caller, format_str_std, fmt::make_format_args(args...)});
+  }
 }
 
-template <class Logger, typename... Args>
-void log(Logger& logger, int severity, std::string_view format,
-         const Args&... args)
+template <typename Logger, typename... T>
+void log(Logger& logger, int severity, fmt::format_string<T...> format, T&&... args)
 {
-  logger.log({severity, {}, format, fmt::make_format_args(args...)});
+  if (logger.accepts(severity)) {
+    // TODO: there must be a better way, right?
+    const fmt::string_view format_str(format);
+    const std::string_view format_str_std(format_str.data(), format_str.size());
+    logger.log({severity, {}, format_str_std, fmt::make_format_args(args...)});
+  }
 }
 
 STORM_NS_END

@@ -18,37 +18,21 @@
 
 STORM_NS_BEGIN
 
-template <typename Logger, typename... Args>
-void log(Logger& logger, const source_location& caller,
-         int severity, std::string_view format, const Args&... args);
+template <typename Logger, typename... T>
+void log(Logger& logger, const source_location& caller, int severity,
+         fmt::format_string<T...> format, T&&... args);
 
-template <typename Logger, typename... Args>
-void log(Logger& logger, int severity, std::string_view format,
-         const Args&... args);
+template <typename Logger, typename... T>
+void log(Logger& logger, int severity, fmt::format_string<T...> format, T&&... args);
 
 STORM_NS_END
 
 #if !defined(STORM_DEBUG) && !defined(STORM_LOG_SOURCE_LOCATION)
-# define STORM_LOG(logger, severity, format, ...) do { \
-  auto& storm_logger = logger; \
-  if (storm_logger.accepts(static_cast<int>(severity))) { \
-    storm_logger.log({ \
-      static_cast<int>(severity), {}, \
-      format, \
-      fmt::make_format_args(__VA_ARGS__) \
-    }); \
-  } } while (false)
+#  define STORM_LOG(logger, severity, format, ...) \
+    storm::log(logger, {}, static_cast<int>(severity), format, ##__VA_ARGS__)
 #else
-# define STORM_LOG(logger, severity, format, ...) do { \
-  auto& storm_logger = logger; \
-  if (storm_logger.accepts(static_cast<int>(severity))) { \
-    storm_logger.log({ \
-      static_cast<int>(severity), \
-      STORM_CURRENT_SOURCE_LOCATION(), \
-      format, \
-      fmt::make_format_args(__VA_ARGS__) \
-    }); \
-  } } while (false)
+#  define STORM_LOG(logger, severity, format, ...) \
+    storm::log(logger, STORM_CURRENT_SOURCE_LOCATION(), static_cast<int>(severity), format, ##__VA_ARGS__)
 #endif
 
 #include "storm/impl/log.hpp"
