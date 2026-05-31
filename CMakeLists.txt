@@ -25,7 +25,6 @@ target_sources(${PROJECT_NAME}
   include/storm/sinks/text_stdio_sink.hpp
   include/storm/source_location.hpp
   PRIVATE
-  include/storm/impl/basic_log_sink.cpp
   include/storm/impl/basic_logger.cpp
   include/storm/sinks/impl/basic_file_sink.cpp
   include/storm/sinks/impl/basic_stdio_sink.cpp

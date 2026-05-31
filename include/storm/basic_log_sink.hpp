@@ -14,12 +14,37 @@
 
 #include "storm/log_record.hpp"
 
+#include <climits>
+
 STORM_NS_BEGIN
+
+class basic_logger;
+
+namespace detail {
+
+// our very simple polymorphism for sinks - avoid the extra vtable cache miss
+struct sink_storage
+{
+  void* ptr = nullptr;
+  void (*log)(void* ptr, basic_logger& logger, const log_record& rec) = nullptr;
+  sink_storage* next = nullptr;
+};
+
+template <typename Sink>
+void log_to_sink(void* ptr, basic_logger& logger, const log_record& rec)
+{
+  auto sink = static_cast<Sink*>(ptr);
+  if (sink->accepts(rec))
+    sink->log(logger, rec);
+}
+
+}
 
 class basic_log_sink
 {
+  friend class log_sinks;
 public:
-  STORM_DECL basic_log_sink();
+  constexpr basic_log_sink() = default;
 
   bool accepts(const log_record& rec) const noexcept
   { return rec.severity >= min_severity_ && rec.severity <= max_severity_; }
@@ -28,14 +53,14 @@ public:
   void max_severity(int max_severity) noexcept { max_severity_ = max_severity; }
 
 private:
-  int min_severity_;
-  int max_severity_;
+  // XXX: This couples the sink to at most one log_sinks.
+  // Turns out to be quite reasonable in the way we use it.
+  detail::sink_storage link_;
+
+  int min_severity_ = INT_MIN;
+  int max_severity_ = INT_MAX;
 };
 
 STORM_NS_END
-
-#if defined(STORM_HEADER_ONLY)
-# include "storm/impl/basic_log_sink.cpp"
-#endif
 
 #endif

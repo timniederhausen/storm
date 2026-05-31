@@ -18,8 +18,8 @@ basic_logger::basic_logger(log_sinks sinks, std::string name)
 
 void basic_logger::log(const log_record& rec)
 {
-  for (const auto& sink : sinks_.sinks_)
-    sink.log(sink.ptr, *this, rec);
+  for (auto first = sinks_.first_; first; first = first->next)
+    first->log(first->ptr, *this, rec);
 }
 
 STORM_NS_END
